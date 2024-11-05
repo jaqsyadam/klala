@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - JARD Flowers</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="homestyle.css">
+</head>
+<body>
+    <!-- Navbar (same as in index.html) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <a class="navbar-brand h1 py-3 px-4" href="home.html">JARD</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse h4" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <button id="themeToggle" class="btn theme-toggle-btn" aria-label="Toggle theme">
+                        <i class="bi bi-sun"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-2 px-2" href="home.html" aria-label="Home">
+                        <i class="bi bi-house"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Cart Content -->
+    <div class="container mt-5">
+        <h1 class="mb-4">Your Cart</h1>
+        <ul id="cartItems" class="list-group mb-3">
+            <!-- Cart items will be dynamically added here -->
+        </ul>
+        <div class="mt-4">
+            <h4>Total: $<span id="cartTotal">0.00</span></h4>
+        </div>
+        <div class="mt-4">
+            <h4>Select Payment Method</h4>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="creditCard" checked>
+                <label class="form-check-label" for="creditCard">
+                    Credit Card
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="paypal" value="paypal">
+                <label class="form-check-label" for="paypal">
+                    PayPal
+                </label>
+            </div>
+        </div>
+
+        <div id="creditCardForm" class="mt-4">
+            <h4>Credit Card Details</h4>
+            <form>
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="expiryDate">Expiry Date</label>
+                        <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="cvv">CVV</label>
+                        <input type="text" class="form-control" id="cvv" placeholder="123" required>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-primary" id="checkoutButton">Proceed to Checkout</button>
+            <a href="home.html" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="homescript.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCart();
+        });
+
+        document.querySelectorAll('input[name="paymentMethod"]').forEach((elem) => {
+            elem.addEventListener("change", function(event) {
+                var creditCardForm = document.getElementById("creditCardForm");
+                if (event.target.value === "creditCard") {
+                    creditCardForm.style.display = "block";
+                } else {
+                    creditCardForm.style.display = "none";
+                }
+            });
+        });
+
+        document.getElementById('checkoutButton').addEventListener('click', function() {
+            var selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            if (selectedPaymentMethod === "creditCard") {
+                // Validate credit card details here
+                var cardNumber = document.getElementById('cardNumber').value;
+                var expiryDate = document.getElementById('expiryDate').value;
+                var cvv = document.getElementById('cvv').value;
+                if (cardNumber && expiryDate && cvv) {
+                    alert('Payment processed successfully!');
+                    // Here you would typically send the payment details to your server
+                } else {
+                    alert('Please fill in all credit card details.');
+                }
+            } else {
+                // Redirect to PayPal
+                alert('Redirecting to PayPal...');
+            }
+        });
+
+        // Theme toggle
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            document.body.classList.toggle('night-theme');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('night-theme')) {
+                icon.classList.replace('bi-sun', 'bi-moon');
+            } else {
+                icon.classList.replace('bi-moon', 'bi-sun');
+            }
+        });
+
+
+    </script>
+</body>
+</html>
